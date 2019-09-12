@@ -34,12 +34,8 @@ public class MyXMLWriter {
 
             Document document = documentBuilder.newDocument();
 
-            Element root = document.createElement("folder");
-            Attr rootAttr = document.createAttribute("name");
-            rootAttr.setValue(rootFolder.getName());
-            root.setAttributeNode(rootAttr);
+            Element root = createFolderElement(document, rootFolder);
             document.appendChild(root);
-
             appendFiles(rootFolder, root, document);
             appendFolders(rootFolder, root, document);
 
@@ -62,29 +58,30 @@ public class MyXMLWriter {
     private void appendFiles(Folder folder, Element element, Document document) {
         for (File f : folder.getFiles()) {
             Element file = document.createElement("file");
-            Attr attr = document.createAttribute("name");
-            attr.setValue(f.getName());
-            file.setAttributeNode(attr);
-
+            Attr name = document.createAttribute("name");
+            name.setValue(f.getName());
+            file.setAttributeNode(name);
             element.appendChild(file);
         }
     }
 
     private void appendFolders(Folder folder, Element element, Document document) {
         for (Folder f : folder.getSubFolders()) {
-            Element folderElement = createElement(document, f);
+            Element folderElement = createFolderElement(document, f);
             element.appendChild(folderElement);
-
             appendFiles(f, folderElement, document);
             appendFolders(f, folderElement, document);
         }
     }
 
-    private Element createElement(Document document, Folder folder) {
+    private Element createFolderElement(Document document, Folder folder) {
         Element folderElement = document.createElement("folder");
-        Attr attr = document.createAttribute("name");
-        attr.setValue(folder.getName());
-        folderElement.setAttributeNode(attr);
+        Attr name = document.createAttribute("name");
+        name.setValue(folder.getName());
+        folderElement.setAttributeNode(name);
+        Attr numberOfFiles = document.createAttribute("numberOfFiles");
+        numberOfFiles.setValue(Integer.toString(folder.getFiles().size()));
+        folderElement.setAttributeNode(numberOfFiles);
         return folderElement;
     }
 }
