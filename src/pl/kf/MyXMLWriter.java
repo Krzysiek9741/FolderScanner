@@ -23,55 +23,55 @@ public class MyXMLWriter {
         this.folderScanner = folderScanner;
     }
 
-        public void writeFolderToXml(String xmlFilePath, String folderPath) {
+    public void writeFolderToXml(String xmlFilePath, String folderPath) {
 
-            try {
-                Folder rootFolder = folderScanner.scan(folderPath);
+        try {
+            Folder rootFolder = folderScanner.scan(folderPath);
 
-                DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 
-                DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 
-                Document document = documentBuilder.newDocument();
+            Document document = documentBuilder.newDocument();
 
-                Element root = document.createElement("folder");
-                Attr rootAttr = document.createAttribute("name");
-                rootAttr.setValue(rootFolder.getName());
-                root.setAttributeNode(rootAttr);
-                document.appendChild(root);
+            Element root = document.createElement("folder");
+            Attr rootAttr = document.createAttribute("name");
+            rootAttr.setValue(rootFolder.getName());
+            root.setAttributeNode(rootAttr);
+            document.appendChild(root);
 
-                appendFiles(rootFolder, root, document);
-                appendFolders(rootFolder, root, document);
+            appendFiles(rootFolder, root, document);
+            appendFolders(rootFolder, root, document);
 
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource domSource = new DOMSource(document);
-                StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
-                transformer.transform(domSource, streamResult);
+            transformer.transform(domSource, streamResult);
 
-                System.out.println("Done creating XML File");
+            System.out.println("Done creating XML File");
 
-            } catch (ParserConfigurationException pce) {
-                pce.printStackTrace();
-            } catch (TransformerException tfe) {
-                tfe.printStackTrace();
-            }
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
         }
+    }
 
-        private void appendFiles(Folder folder, Element element, Document document){
-            for (File f: folder.getFiles()) {
-                Element file = document.createElement("file");
-                Attr attr = document.createAttribute("name");
-                attr.setValue(f.getName());
-                file.setAttributeNode(attr);
+    private void appendFiles(Folder folder, Element element, Document document) {
+        for (File f : folder.getFiles()) {
+            Element file = document.createElement("file");
+            Attr attr = document.createAttribute("name");
+            attr.setValue(f.getName());
+            file.setAttributeNode(attr);
 
-                element.appendChild(file);
-            }
+            element.appendChild(file);
         }
+    }
 
-    private void appendFolders(Folder folder, Element element, Document document){
-        for (Folder f: folder.getSubFolders()) {
+    private void appendFolders(Folder folder, Element element, Document document) {
+        for (Folder f : folder.getSubFolders()) {
             Element folderElement = createElement(document, f);
             element.appendChild(folderElement);
 
@@ -80,7 +80,7 @@ public class MyXMLWriter {
         }
     }
 
-    private Element createElement(Document document, Folder folder){
+    private Element createElement(Document document, Folder folder) {
         Element folderElement = document.createElement("folder");
         Attr attr = document.createAttribute("name");
         attr.setValue(folder.getName());
