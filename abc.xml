@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<folder name="Root" numberOfFiles="2">
+    <file name="tekst poz 1.txt"/>
+    <file name="word poz 1.docx"/>
+    <folder name="Folder poz 1" numberOfFiles="2">
+        <file name="tekst poz 2.txt"/>
+        <file name="word poz 2.docx"/>
+        <folder name="Folder poz 2.1" numberOfFiles="1">
+            <file name="tekst poz 3.txt"/>
+        </folder>
+        <folder name="Folder poz 2.2" numberOfFiles="1">
+            <file name="word poz 3.docx"/>
+        </folder>
+    </folder>
+</folder>
